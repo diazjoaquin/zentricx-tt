@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { UserSchema } from './modules/user/infrastructure/persistence/user.schema';
 import { AuthModule } from './modules/auth/auth.module';
 import { TaskModule } from './modules/task/task.module';
+import { TaskSchema } from './modules/task/infrastructure/persistence/task.schema';
 
 
 @Module({
@@ -23,7 +24,7 @@ import { TaskModule } from './modules/task/task.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [UserSchema],
+        entities: [UserSchema, TaskSchema],
         synchronize: true,
       }),
     }),
