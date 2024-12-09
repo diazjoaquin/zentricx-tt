@@ -1,4 +1,4 @@
-# zentricx-tt
+# zentricx - Challenge Técnico
 
 ## Proyecto de Gestión de Tareas
 Este proyecto es una aplicación para gestionar tareas, que permite a los usuarios crear, actualizar, eliminar y visualizar tareas, todo ello protegido por autenticación. El backend está desarrollado con NestJS, mientras que el frontend está implementado en la última versión de Next.js. Para manejar los estados de manera global se utilizaron custom hooks (Componentes perzonalizados) y ContextHooks debido a la simpleza del proyecto.
