@@ -17,6 +17,12 @@ export class AuthService {
   async validateUser (authDto: AuthDTO): Promise<any> {
     const user = await this.userService.findByEmail(authDto.email);
 
+    const isValidPassword = await this.bcryptService.compare(authDto.password, user.password);
+
+    if (!isValidPassword) {
+      throw new UnauthorizedException(AuthError.WRONG_PASSWORD);
+    };
+
     if (user && await this.bcryptService.compare(authDto.password, user.password)) {
       return {
         name: user.name,
@@ -37,10 +43,6 @@ export class AuthService {
 
   async signIn(email: string) {
     const user = await this.userService.findByEmail(email);
-
-    if (!user) {
-      throw new UnauthorizedException(AuthError.WRONG_PASSWORD);
-    }
 
     const payload = {
       sub: user.id,
