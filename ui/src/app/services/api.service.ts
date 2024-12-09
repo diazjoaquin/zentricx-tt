@@ -12,9 +12,13 @@ class ApiService implements IApiService {
 	}
 
   async get<T = unknown>(endpoint: string): Promise<T> {
+		const token = await getCookie('access_token');
 		const response = await fetch(`${this.config.baseUrl}/${endpoint}`, {
 			method: 'GET',
-			headers: this.config.headers,
+			headers: {
+				...this.config.headers,
+				access_token: token ? token : '',
+			}
 		});
 		const responseJSON = await response.json();
 
@@ -26,9 +30,13 @@ class ApiService implements IApiService {
 	}
 
 	async post<T = unknown, K = unknown>(endpoint: string, body: K): Promise<T> {
+		const token = await getCookie('access_token');
 		const response = await fetch(`${this.config.baseUrl}/${endpoint}`, {
 			method: 'POST',
-			headers: this.config.headers,
+			headers: {
+				...this.config.headers,
+				access_token: token ? token : '',
+			},
 			body: JSON.stringify(body),
 		});
 		const responseJSON = await response.json();
@@ -41,10 +49,14 @@ class ApiService implements IApiService {
 	}
 
 	async patch<T = unknown, K = unknown>(endpoint: string, body: K): Promise<T> {
+		const token = await getCookie('access_token');
 		try {
 			const response = await fetch(`${this.config.baseUrl}/${endpoint}`, {
 				method: 'PATCH',
-				headers: this.config.headers,
+				headers: {
+					...this.config.headers,
+					access_token: token ? token : '',
+				},
 				body: JSON.stringify(body),
 			});
 			return response.json();
@@ -54,8 +66,8 @@ class ApiService implements IApiService {
 	}
 
 	async put<T = unknown, K = unknown>(endpoint: string, body: K): Promise<T> {
+		const token = await getCookie('access_token');
 		try {
-			const token = await getCookie('access_token');
 			const response = await fetch(`${this.config.baseUrl}/${endpoint}`, {
 				method: 'PUT',
 				headers: {
@@ -71,10 +83,14 @@ class ApiService implements IApiService {
 	}
 
 	async delete<T = unknown>(endpoint: string): Promise<T> {
+		const token = await getCookie('access_token');
 		try {
 			const response = await fetch(`${this.config.baseUrl}/${endpoint}`, {
 				method: 'DELETE',
-				headers: this.config.headers,
+				headers: {
+					...this.config.headers,
+					access_token: token ? token : '',
+				},
 			});
 			return response.json();
 		} catch (error) {
