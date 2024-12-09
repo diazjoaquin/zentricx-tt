@@ -1,8 +1,9 @@
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { IApiService } from '../interfaces/IApiService';
 import { fromUserFormToData } from '../mappers/user.mapper';
 import { useAuthContext } from './useAuthContext';
 import { UserAccessToken } from '../interfaces/IAccessToken';
+import { useNotification } from "./useNotification";
 
 export interface FormValues {
   name?: string;
@@ -13,6 +14,9 @@ export interface FormValues {
 
 export const useAuth = () => {
   const { handleLogIn } = useAuthContext();
+  const { getNotification } = useNotification();
+  const router = useRouter();
+
   const initialValuesSignUp: FormValues = {
     name: '',
     email: '',
@@ -32,10 +36,12 @@ export const useAuth = () => {
     const mappedValues = fromUserFormToData(values);
     try {
       await apiService.post('auth/register', mappedValues);
-      console.log('User created successfully');
-      redirect('/sign-in');
+      getNotification('success', 'User created successfully, please sign in');
+      router.push('/auth/sign-in');
     } catch (error) {
-      throw new Error("Error creating user, please try again later.");
+      if (error instanceof Error) {
+        getNotification('error', error.message);
+      }
     }
   }
 
@@ -45,11 +51,15 @@ export const useAuth = () => {
   ) => {
     try {
       const response = await apiService.post<UserAccessToken, FormValues>('auth/login', values);
-      handleLogIn(response)
-      console.log('User logged in successfully');
-      redirect('/');
+      if (response) {
+        handleLogIn(response);
+        getNotification('success', 'User logged in successfully');
+        redirect('/');
+      }
     } catch (error) {
-      throw new Error("Error logging in, please try again later.");
+      if (error instanceof Error && error.message !== 'NEXT_REDIRECT') {
+        getNotification('error', error.message);
+      }
     }
   }
 
