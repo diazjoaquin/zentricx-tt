@@ -10,7 +10,7 @@ export class AuthController {
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('login')
   async signIn(@Body() body: AuthDTO) {
-    return await this.authService.signIn(body.email);
+    return await this.authService.authenticate(body);
   }
 
   @HttpCode(HttpStatus.ACCEPTED)
