@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
@@ -16,14 +17,18 @@
     "react": "18.3.1",
     "react-cookie": "^7.2.2",
     "react-dom": "18.3.1",
+    "react-icons": "^5.4.0",
+    "react-toastify": "^10.0.6",
     "yup": "^1.5.0"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.2",
     "@types/cookies": "^0.9.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cypress": "^13.16.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
